@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>مفتاح قلبي 💜</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(145deg, #1a0026 0%, #2d004d 70%, #1f0033 100%);
+      font-family: 'Amiri', serif;
+      color: #f0e6ff;
+      text-shadow: 0 0 8px rgba(200, 160, 255, 0.6);
+      overflow-x: hidden;
+      position: relative;
+      transition: text-shadow 1.5s ease;
+    }
+
+    body.glow-strong {
+      text-shadow: 0 0 16px #d9b0ff, 0 0 30px #b57cff;
+    }
+
+    /* floating particles (stars) */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      background-color: #e5ccff;
+      border-radius: 50%;
+      box-shadow: 0 0 16px #d6a3ff, 0 0 30px #b57cff;
+      opacity: 0.4;
+      animation: floatParticle 14s infinite ease-in-out;
+    }
+
+    @keyframes floatParticle {
+      0% { transform: translateY(0) translateX(0); opacity: 0.2; }
+      50% { transform: translateY(-25vh) translateX(10px); opacity: 0.7; }
+      100% { transform: translateY(-50vh) translateX(-5px); opacity: 0.2; }
+    }
+
+    /* floating images container */
+    .floating-images-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .floating-img {
+      position: absolute;
+      width: 70px;               /* حجم الصورة */
+      height: 70px;              /* نفس العرض لقلب متناسق */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      filter: drop-shadow(0 0 12px #d9a3ff);
+      animation: floatImage 18s linear infinite;
+      -webkit-clip-path: url(#heartClip);
+      clip-path: url(#heartClip);   /* شكل القلب */
+      transition: transform 0.2s;
+    }
+
+    @keyframes floatImage {
+      0% { transform: translateY(110vh) scale(0.6); opacity: 0; }
+      20% { opacity: 0.9; }
+      80% { opacity: 0.6; }
+      100% { transform: translateY(-15vh) scale(1.2); opacity: 0; }
+    }
+
+    /* screens */
+    .screen {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      transition: opacity 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .password-screen {
+      background: transparent;
+    }
+
+    .main-screen {
+      background: transparent;
+      display: flex;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 1.8s ease, visibility 1.8s ease;
+    }
+
+    .main-screen.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* password card */
+    .password-card {
+      max-width: 460px;
+      width: 100%;
+      background: rgba(45, 0, 77, 0.5);
+      backdrop-filter: blur(8px);
+      border: 1px solid #a066cc40;
+      border-radius: 2.5rem 1rem 2.5rem 1rem;
+      padding: 2.5rem 1.8rem;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.7), 0 0 60px #49007733;
+      text-align: center;
+    }
+
+    .password-card h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 2.5rem;
+      color: #f6ebff;
+      text-shadow: 0 0 18px #c58aff;
+      line-height: 1.6;
+    }
+
+    .password-input {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      background: #2a003f;
+      border: 2px solid #a066cc;
+      border-radius: 3rem;
+      font-size: 1.5rem;
+      color: #f0dcff;
+      text-align: center;
+      font-family: 'Amiri', serif;
+      outline: none;
+      transition: 0.3s;
+      margin-bottom: 1.8rem;
+    }
+
+    .password-input::placeholder {
+      color: #b385d9;
+      font-size: 1.3rem;
+      opacity: 0.7;
+    }
+
+    .password-input:focus {
+      border-color: #e1b0ff;
+      box-shadow: 0 0 30px #bf7fff;
+    }
+
+    .open-btn {
+      background: linear-gradient(135deg, #59008a, #360059);
+      border: none;
+      color: #fae6ff;
+      font-size: 1.9rem;
+      font-weight: 700;
+      padding: 1rem 2.2rem;
+      border-radius: 4rem;
+      cursor: pointer;
+      box-shadow: 0 10px 20px #1a0026, 0 0 30px #a64dff;
+      transition: 0.2s;
+      font-family: 'Amiri', serif;
+      letter-spacing: 2px;
+      border: 1px solid #c08aff;
+      margin-top: 0.5rem;
+    }
+
+    .open-btn:active {
+      transform: scale(0.96);
+      box-shadow: 0 0 45px #d9a3ff;
+    }
+
+    .error-message {
+      color: #ffc6f0;
+      margin-top: 1.5rem;
+      font-size: 1.6rem;
+      text-shadow: 0 0 10px #ff9de0;
+      min-height: 2.5rem;
+    }
+
+    .shake {
+      animation: shake 0.4s ease-in-out;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      20% { transform: translateX(-10px); }
+      40% { transform: translateX(10px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+      100% { transform: translateX(0); }
+    }
+
+    /* main content */
+    .content-wrapper {
+      max-width: 750px;
+      width: 100%;
+      padding: 1.5rem;
+      background: rgba(15, 0, 25, 0.3);
+      backdrop-filter: blur(3px);
+      border-radius: 3rem 1rem 3rem 1rem;
+      border: 1px solid #bc8cf040;
+      box-shadow: 0 0 120px #3d005e40;
+    }
+
+    .typewriter-text {
+      font-size: 1.9rem;
+      line-height: 2.8rem;
+      font-weight: 400;
+      color: #f6eaff;
+      text-shadow: 0 0 12px #c999ff;
+      margin-bottom: 2rem;
+      word-break: break-word;
+    }
+
+    .typewriter-text p {
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeInLine 0.5s forwards;
+    }
+
+    @keyframes fadeInLine {
+      to { opacity: 1; }
+    }
+
+    .timers-section {
+      margin-top: 3rem;
+      border-top: 2px dashed #a94dff55;
+      padding-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      opacity: 0;
+      transition: opacity 2s;
+    }
+
+    .timers-section.visible {
+      opacity: 1;
+    }
+
+    .timer-card {
+      background: #1e002f80;
+      border-radius: 2.5rem 0.8rem 2.5rem 0.8rem;
+      padding: 1.5rem 1.2rem;
+      border: 1px solid #a44cff;
+      box-shadow: 0 0 40px #6700b34d;
+      text-align: center;
+    }
+
+    .timer-label {
+      font-size: 2rem;
+      margin-bottom: 0.8rem;
+      color: #f0d4ff;
+    }
+
+    .timer-value {
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: #ffffff;
+      text-shadow: 0 0 30px #ddb0ff;
+      background: #2d004d50;
+      display: inline-block;
+      padding: 0.3rem 2rem;
+      border-radius: 4rem;
+    }
+
+    @media (max-width: 500px) {
+      .password-card h2 { font-size: 1.8rem; }
+      .open-btn { font-size: 1.6rem; }
+      .typewriter-text { font-size: 1.5rem; line-height: 2.3rem; }
+      .timer-value { font-size: 2.5rem; }
+      .timer-label { font-size: 1.7rem; }
+      .floating-img { width: 50px; height: 50px; }
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- SVG clipPath لشكل القلب -->
+  <svg width="0" height="0" style="position: absolute;">
+    <defs>
+      <clipPath id="heartClip" clipPathUnits="objectBoundingBox">
+        <path d="M 0.5,0.9 C 0.2,0.6 0.2,0.1 0.5,0.3 C 0.8,0.1 0.8,0.6 0.5,0.9 Z" />
+      </clipPath>
+    </defs>
+  </svg>
+
+  <!-- floating particles (stars) -->
+  <div class="particles" id="particles"></div>
+  <!-- floating images container (سيتم ملؤها لاحقاً بالصور بشكل قلب) -->
+  <div class="floating-images-container" id="floatingImagesContainer"></div>
+
+  <!-- password screen -->
+  <div class="screen password-screen" id="passwordScreen">
+    <div class="password-card">
+      <h2>اسمُكِ هو المفتاح… دائماً.</h2>
+      <input type="text" class="password-input" id="passwordInput" placeholder="اكتبي هنا..." autofocus>
+      <button class="open-btn" id="unlockBtn">افتحي قلبي</button>
+      <div class="error-message" id="errorMsg"></div>
+    </div>
+  </div>
+
+  <!-- main romantic screen -->
+  <div class="screen main-screen" id="mainScreen">
+    <div class="content-wrapper">
+      <div class="typewriter-text" id="typewriterContainer"></div>
+      <div class="timers-section" id="timersSection">
+        <div class="timer-card">
+          <div class="timer-label">صارلنا <span id="daysSince">0</span> يوم سوا 💜</div>
+        </div>
+        <div class="timer-card">
+          <div class="timer-label">أتركج للـ 98 سنة الجاية…</div>
+          <div class="timer-value" id="daysRemaining">0</div>
+          <div style="font-size:1.2rem; margin-top:0.5rem;">يوم</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- music -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="halim_habibi.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    (function() {
+      const CORRECT_PASSWORD = "امون";
+
+      // أسماء ملفات الصور (10 صور)
+      const imageFiles = [
+        'img1.png', 'img2.png', 'img3.png', 'img4.png', 'img5.png',
+        'img6.png', 'img7.png', 'img8.png', 'img9.png', 'img10.png'
+      ];
+
+      const fullText = `في عالمٍ مظلم…
+كنتِ أنتي نوره الوحيد،
+النور اللي يبصّرني طريقي .
+
+ويظل سؤال يطرق قلبي…
+سؤال لا أريد أعرف جوابه:
+كيف يبدو لون العالم من دونكِ؟
+
+غريب… كم أنتي جميلة هكذا،
+وكيف لفتاةٍ صغيرة أن يكون لها هذا التأثير الهائل على قلبي؟
+
+أحمل لكِ حبًا كبيرًا…
+حبًا يجعلني أتساءل – دون رغبة بالإجابة –
+كيف يعيش الناس من دون هذا الشعور العظيم؟
+
+يا ملجئي العامر…
+يا ساعتي البطيئة حين أشتاق…
+يا قلبي الفرح…
+يا سلطانتي الحاضرة دائمًا في تفاصيل يومي…
+
+كنتِ… ولا زلتي…
+أعز وأغلى ما أملك.
+
+أنتي جزيرتي في كوكب TOI،
+لستِ أجمل ما رأيت…
+بل أنتي كلّ ما رأيت.
+
+أحبج يا حلوة ❤️`;
+
+      const pwdScreen = document.getElementById('passwordScreen');
+      const mainScreen = document.getElementById('mainScreen');
+      const pwdInput = document.getElementById('passwordInput');
+      const unlockBtn = document.getElementById('unlockBtn');
+      const errorMsg = document.getElementById('errorMsg');
+      const typewriterDiv = document.getElementById('typewriterContainer');
+      const timersSection = document.getElementById('timersSection');
+      const daysSpan = document.getElementById('daysSince');
+      const daysRemSpan = document.getElementById('daysRemaining');
+      const audio = document.getElementById('bgMusic');
+      const floatingContainer = document.getElementById('floatingImagesContainer');
+
+      // النجوم
+      function createParticles() {
+        const particlesDiv = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+          const particle = document.createElement('span');
+          particle.className = 'particle';
+          const size = Math.random() * 6 + 2;
+          particle.style.width = size + 'px';
+          particle.style.height = size + 'px';
+          particle.style.left = Math.random() * 100 + '%';
+          particle.style.top = Math.random() * 100 + '%';
+          particle.style.animationDelay = Math.random() * 10 + 's';
+          particle.style.animationDuration = (Math.random() * 15 + 15) + 's';
+          particlesDiv.appendChild(particle);
+        }
+      }
+      createParticles();
+
+      // الصور العائمة بشكل قلب
+      function createFloatingImages() {
+        floatingContainer.innerHTML = '';
+        const numberOfImages = 20; // عدد الصور
+        
+        for (let i = 0; i < numberOfImages; i++) {
+          const div = document.createElement('div');
+          div.className = 'floating-img';
+          
+          const randomIndex = Math.floor(Math.random() * imageFiles.length);
+          div.style.backgroundImage = `url('${imageFiles[randomIndex]}')`;
+          
+          div.style.left = Math.random() * 100 + '%';
+          div.style.animationDelay = Math.random() * 12 + 's';
+          div.style.animationDuration = (Math.random() * 12 + 14) + 's';
+          div.style.width = (Math.random() * 30 + 40) + 'px';   // بين 40 و70
+          div.style.height = div.style.width;                  // مربع لكي لا يشوه القلب
+          
+          // إذا فشل تحميل الصورة نظهر خلفية بديلة
+          div.onerror = () => { div.style.backgroundColor = '#ffb3ff'; };
+          
+          floatingContainer.appendChild(div);
+        }
+      }
+
+      // تأثير الكتابة
+      function startTypingEffect() {
+        typewriterDiv.innerHTML = '';
+        const lines = fullText.split('\n');
+
+        let lineIndex = 0;
+        let charIndex = 0;
+
+        function typeNextLine() {
+          if (lineIndex >= lines.length) {
+            timersSection.classList.add('visible');
+            document.body.classList.add('glow-strong');
+            createFloatingImages(); // هنا يتم إنشاء الصور بشكل قلب
+            return;
+          }
+
+          const currentLine = lines[lineIndex];
+          const p = document.createElement('p');
+          
+          if (currentLine === '') {
+            p.innerHTML = ' ';
+            p.style.opacity = '0.6';
+            typewriterDiv.appendChild(p);
+            lineIndex++;
+            setTimeout(typeNextLine, 300);
+            return;
+          }
+
+          typewriterDiv.appendChild(p);
+          const chars = currentLine.split('');
+          charIndex = 0;
+          p.textContent = '';
+
+          function typeChar() {
+            if (charIndex < chars.length) {
+              p.textContent += chars[charIndex];
+              charIndex++;
+              setTimeout(typeChar, 65);
+            } else {
+              lineIndex++;
+              setTimeout(typeNextLine, 550);
+            }
+          }
+          typeChar();
+        }
+
+        typeNextLine();
+      }
+
+      // العدادات
+      function updateTimers() {
+        const startDate = new Date(2021, 0, 1);
+        const today = new Date();
+        const diffTime = today - startDate;
+        const daysSince = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        daysSpan.textContent = daysSince >= 0 ? daysSince : 0;
+
+        const targetDate = new Date(2021, 0, 1);
+        targetDate.setFullYear(targetDate.getFullYear() + 98);
+        const remainingTime = targetDate - today;
+        const daysRemaining = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+        daysRemSpan.textContent = daysRemaining >= 0 ? daysRemaining : 0;
+      }
+
+      // معالجة كلمة المرور الصحيحة
+      function handleCorrectPassword() {
+        mainScreen.classList.add('visible');
+        
+        pwdScreen.style.transition = 'opacity 1.8s ease';
+        pwdScreen.style.opacity = '0';
+        
+        pwdScreen.addEventListener('transitionend', function onTransitionEnd(e) {
+          if (e.propertyName === 'opacity') {
+            pwdScreen.style.display = 'none';
+            pwdScreen.removeEventListener('transitionend', onTransitionEnd);
+          }
+        });
+        
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        audio.volume = 0.25;
+        audio.play().catch(e => console.log('Audio play failed', e));
+
+        setTimeout(() => {
+          startTypingEffect();
+        }, 400);
+
+        updateTimers();
+      }
+
+      function showWrong() {
+        errorMsg.textContent = 'مو هذا المفتاح 💜';
+        pwdInput.classList.add('shake');
+        setTimeout(() => pwdInput.classList.remove('shake'), 500);
+      }
+
+      function checkPassword() {
+        const entered = pwdInput.value.trim();
+        if (entered === CORRECT_PASSWORD) {
+          errorMsg.textContent = '';
+          handleCorrectPassword();
+        } else {
+          showWrong();
+        }
+      }
+
+      unlockBtn.addEventListener('click', checkPassword);
+      pwdInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          checkPassword();
+        }
+      });
+
+      updateTimers();
+
+      window.addEventListener('load', () => {
+        pwdInput.focus();
+      });
+    })();
+  </script>
+</body>
+</html>
